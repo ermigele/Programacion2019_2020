@@ -16,6 +16,7 @@ public class ejercicio1 {
 		boolean acertado = false;
 
 		do {
+			System.out.println();
 			System.out.print("Introduce un nombre: ");
 			nombre = Entrada.cadena();
 			System.out.print("Introduce el primer apellido: ");
