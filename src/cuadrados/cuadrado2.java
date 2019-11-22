@@ -7,7 +7,7 @@ public class cuadrado2 {
 
 		int tam = 0, cant = 0, salto = 0;
 
-		System.out.print("Introduce el número de tamaño del cuadrado: ");
+		System.out.print("Introduce el nÃºmero de tamaÃ±o del cuadrado: ");
 		tam = Entrada.entero();
 		System.out.print("Introduce la cantidad de cuadrados: ");
 		cant = Entrada.entero();
@@ -26,7 +26,6 @@ public class cuadrado2 {
 			}
 			System.out.println();
 		}
-
 	}
 
 }
