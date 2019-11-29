@@ -15,23 +15,14 @@ public class cuadrado1 {
 
 		for (int i = 0; i < tam; i++) {
 
-			if (cant <= 1) {
-
-				for (int j = 0; j < tam; j++) {
+			for (int j = 0; j < cant; j++) {
+				for (int k = 0; k < tam; k++) {
 					System.out.print(" *");
 				}
-
-			} else {
-				for (int j = 0; j < cant; j++) {
-					for (int k = 0; k < tam; k++) {
-						System.out.print(" *");
-					}
-					System.out.print(" ");
-				}
+				System.out.print(" ");
 			}
-			System.out.println();
 		}
-
+		System.out.println();
 	}
 
 }
