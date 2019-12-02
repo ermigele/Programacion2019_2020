@@ -1,5 +1,7 @@
 package ejerciciosMasFunciones;
 
+import java.util.Random;
+
 public class EjercicioFechas {
 
 	final int DIA_HOY = 2, ANIO_HOY = 2019;
@@ -17,6 +19,9 @@ public class EjercicioFechas {
 		System.out.print("Año: ");
 		anio = Entrada.entero();
 
+		// int aletorio = (int) (Math.random() * (50 - 1 + 1) + 1);
+		// System.out.println(aletorio);
+
 	}
 
 	// METODOS
@@ -33,10 +38,16 @@ public class EjercicioFechas {
 	}
 
 	// devuelve el número de días que tiene el mes.
-
 	public static int diasMes(int mes, int anyo) {
 
-		return 1;
+		if (mes == 4 || mes == 6 || mes == 9 || mes == 11) { 
+			mes = 30;
+		} else if (mes == 2) {
+			mes = (esBisiesto(anyo)) ? 29 : 28;
+		} else {
+			mes = 31;
+		}
+		return mes;
 	}
 
 	// devuelve el número del mes pasado a cadena, si la cadena no se corresponde
