@@ -39,7 +39,7 @@ public class EjercicioFechas {
 		}
 	}
 
-	// devuelve el nÃºmero de dÃ­as que tiene el mes.
+	// devuelve el número de días que tiene el mes.
 	public static int diasMes(int mes, int anyo) {
 
 		if (mes == 2) {
@@ -52,8 +52,8 @@ public class EjercicioFechas {
 		return mes;
 	}
 
-	// devuelve el nÃºmero del mes pasado a cadena, si la cadena no se corresponde
-	// con ningÃºn mes devuelve -1
+	// devuelve el número del mes pasado a cadena, si la cadena no se corresponde
+	// con ningún mes devuelve -1
 	public static int pasaMesAEntero(String mesCad) {
 
 		switch (mesCad) {
@@ -90,14 +90,14 @@ public class EjercicioFechas {
 	// devuelve cierto si es correcta la fecha
 	public static boolean fechaCorrecta(int dia, int mes, int anyo) {
 
-		if (anyo < 1500 && (diasMes < 1 || diaMes > 31)) {
+		if (dia > diasMes(mes, anyo) ) {
 			return false;
 		} else {
 			return true;
 		}
 	}
 
-	// devuelve cierto si la fecha dia, mes es mayor que el dÃ­a y el mes de la
+	// devuelve cierto si la fecha dia, mes es mayor que el día y el mes de la
 	// fecha, actual.
 	public static boolean esMayor(int dia, int mes) {
 		return false;
