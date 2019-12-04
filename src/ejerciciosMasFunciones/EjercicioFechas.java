@@ -2,27 +2,40 @@ package ejerciciosMasFunciones;
 
 public class EjercicioFechas {
 
-	final int DIA_HOY = 2, ANIO_HOY = 2019;
-	final String MES_HOY = "diciembre";
+	final static int DIA_HOY = 3;
+	final static int MES_HOY = 11;
+	final static int ANYO_HOY = 2019;
 
 	public static void main(String[] args) {
-		int dia = 0, anio = 0;
-		String mes;
+		int dia = 0;
+		String mes = new String(" ");
+		int anyo = 0;
+		int mesEntero = 0;
 
-		System.out.println("Introduce su fecha de nacimiento ");
-		System.out.print("Dia: ");
+		System.out.println("Introduce la fecha de nacimiento");
+		System.out.println("Introduce el dia");
 		dia = Entrada.entero();
-		System.out.print("Mes: ");
-		mes = Entrada.cadena().toLowerCase();
-		System.out.print("AÃ±o: ");
-		anio = Entrada.entero();
+		System.out.println("Introduce el mes");
+		mes = Entrada.cadena();
+		System.out.println("Introduce el año");
+		anyo = Entrada.entero();
 
-		System.out.println(pasaMesAEntero(mes));
-		System.out.println(diasMes(dia, pasaMesAEntero(mes)));
-		// calculaEdad(dia, pasaMesAEntero(mes), anio);
+		mesEntero = pasaMesAEntero(mes);
 
-		// int aletorio = (int) (Math.random() * (50 - 1 + 1) + 1);
-		// System.out.println(aletorio);
+		while (!fechaCorrecta(dia, mesEntero, anyo)) {
+			System.err.println("fecha introducida incorrecta vuelve a introducirla");
+			System.out.println("Introduce la fecha de nacimiento");
+			System.out.println("Introduce el dia");
+			dia = Entrada.entero();
+			System.out.println("Introduce el mes");
+			mes = Entrada.cadena();
+			System.out.println("Introduce el año");
+			anyo = Entrada.entero();
+
+			mesEntero = pasaMesAEntero(mes);
+		}
+
+		calculaEdad(dia, mesEntero, anyo);
 
 	}
 
@@ -90,7 +103,8 @@ public class EjercicioFechas {
 	// devuelve cierto si es correcta la fecha
 	public static boolean fechaCorrecta(int dia, int mes, int anyo) {
 
-		if (dia > diasMes(mes, anyo) ) {
+		if (dia > diasMes(mes, anyo) || dia < 1 || mes < 1 || anyo > ANYO_HOY
+				|| (anyo == ANYO_HOY && esMayor(dia, mes))) {
 			return false;
 		} else {
 			return true;
@@ -100,12 +114,22 @@ public class EjercicioFechas {
 	// devuelve cierto si la fecha dia, mes es mayor que el día y el mes de la
 	// fecha, actual.
 	public static boolean esMayor(int dia, int mes) {
-		return false;
+		if ((dia >= DIA_HOY && mes == MES_HOY) || mes > MES_HOY) {
+			return true;
+		} else {
+			return false;
+		}
 
 	}
 
 	// Que muestra por pantalla la edad de la fecha dada
 	public static void calculaEdad(int dia, int mes, int anyo) {
+		int edad = 0;
+		edad = ANYO_HOY - anyo;
 
+		if (esMayor(dia, mes))
+			edad--;
+
+		System.out.println("Tu edad es: " + edad);
 	}
 }
