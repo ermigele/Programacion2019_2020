@@ -63,7 +63,7 @@ public class ejerciciosRecursividad {
 	// solo los números impares y no primos desde 1 hasta n.
 	public static void imprimeImparesNoPrimos(int num) {
 		int div = 2;
-		// case base
+		// caso base
 		if (num % div == 0 && num == num)
 			System.out.println();
 
