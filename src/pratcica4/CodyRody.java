@@ -8,37 +8,48 @@ public class CodyRody {
 
 	static int barrera1X = 0, barrera1Y = 0, barrera2X = 0, barrera2Y = 0;
 
-	static int coordXCody = 0, coordYCody = 0, coordXRody = 0, coordYRody = 0;
+	static int coordXCody = 0, coordYCody = 0, coordXRoby = 0, coordYRoby = 0;
 
 	public static void main(String[] args) {
 
 		boolean ganador = false;
-		int dado = 0;
+		int carasDado = 0;
+		char tiradaDado;
 
-		System.out.println("Bienvenido al juego de Cody & Rody. ");
-		System.out.println("Cuantas caras es el dado con el que se va a jugar: ");
+		System.out.println("------------------¡BIENVENIDOS A CODY Y ROBY!------------------ ");
+		System.out.println("¿De cuantas caras es tu dado?");
 
-		dado = Entrada.entero();
+		carasDado = Entrada.entero();
 
 		coordXCody = coordenadaAleatoria();
 		coordYCody = coordenadaAleatoria();
-		coordXRody = coordenadaAleatoria();
-		coordYRody = coordenadaAleatoria();
+		coordXRoby = coordenadaAleatoria();
+		coordYRoby = coordenadaAleatoria();
 
-		while (coordXRody == coordXCody && coordYRody == coordYCody) {
-			coordXRody = coordenadaAleatoria();
-			coordYRody = coordenadaAleatoria();
+		while (coordXRoby == coordXCody && coordYRoby == coordYCody) {
+			coordXRoby = coordenadaAleatoria();
+			coordYRoby = coordenadaAleatoria();
 		}
 
 		asignaValoresBarreras();
-		System.out.println(
-				" Bar1X = " + barrera1X + ", Bar1Y = " + barrera1Y + " Bar2X = " + barrera2X + " Bar2Y = " + barrera1Y);
-		System.out.println(" CodyX = " + coordXCody + ", CodyY = " + coordYCody + " RodyX = " + coordXRody + " RodyY = "
-				+ coordYRody);
-
+		// System.out.println(
+		// " Bar1X = " + barrera1X + ", Bar1Y = " + barrera1Y + " Bar2X = " + barrera2X
+		// + " Bar2Y = " + barrera1Y);
+		// System.out.println(" CodyX = " + coordXCody + ", CodyY = " + coordYCody + "
+		// RobyX = " + coordXRoby + " RobyY = "
+		// + coordYRoby);
 		System.out.println();
+		System.out.println("Empezamos");
 
-		mostrarTablero();
+		while (!ganador) {
+			mostrarTablero();
+
+			System.out.println("¡Es el turno de " + robotJuega + "!");
+			System.out.println("Pulsa la tecla d para lanzar dado...");
+			tiradaDado = Entrada.caracter();
+			System.out.println("Ha salido " + tirarDado(carasDado));
+		}
+
 	}
 
 	public static int coordenadaAleatoria() {
@@ -57,7 +68,7 @@ public class CodyRody {
 		barrera1Y = coordenadaAleatoria();
 
 		while ((barrera1X == coordXCody && barrera1Y == coordYCody)
-				|| (barrera1X == coordXRody && barrera1Y == coordYRody)) {
+				|| (barrera1X == coordXRoby && barrera1Y == coordYRoby)) {
 
 			barrera1X = coordenadaAleatoria();
 			barrera1Y = coordenadaAleatoria();
@@ -67,7 +78,7 @@ public class CodyRody {
 		barrera2Y = coordenadaAleatoria();
 
 		while ((barrera2X == coordXCody && barrera2Y == coordYCody)
-				|| (barrera2X == coordXRody && barrera2Y == coordYRody)
+				|| (barrera2X == coordXRoby && barrera2Y == coordYRoby)
 				|| (barrera1X == barrera2X && barrera1Y == barrera2Y)) {
 
 			barrera2X = coordenadaAleatoria();
@@ -87,10 +98,10 @@ public class CodyRody {
 					System.out.print(" *");
 
 				} else {
-					if (x == coordXCody && y == coordXCody) {
+					if (x == coordXCody && y == coordYCody) {
 						System.out.print(" C");
 					} else {
-						if (x == coordXRody && y == coordXRody) {
+						if (x == coordXRoby && y == coordYRoby) {
 							System.out.print(" R");
 						} else {
 
@@ -120,20 +131,92 @@ public class CodyRody {
 
 	// <MOVIMIENTOS>
 	public static boolean moverArriba(String robotJuega) {
-
-		return true;
+		boolean posible = false;
+		if (robotJuega.equals("Cody")) {
+			coordYCody -= 6;
+			if ((coordXCody >= 3 && coordYCody >= 3) && coordYCody <= (TAM_TABLERO * 6 - 3) && coordYCody != barrera1Y
+					&& coordYCody != barrera2Y) {
+				posible = true;
+			} else
+				coordYCody += 6;
+			posible = false;
+		} else {
+			coordYRoby -= 6;
+			if ((coordXRoby >= 3 && coordYRoby >= 3) && coordYRoby <= (TAM_TABLERO * 6 - 3) && coordYRoby != barrera1Y
+					&& coordYRoby != barrera2Y) {
+				posible = true;
+			} else
+				posible = false;
+			coordYRoby += 6;
+		}
+		return posible;
 	}
 
 	public static boolean moverAbajo(String robotJuega) {
-		return true;
+		boolean posible = false;
+		if (robotJuega.equals("Cody")) {
+			coordYCody += 6;
+			if ((coordXCody >= 3 && coordYCody >= 3) && coordYCody <= (TAM_TABLERO * 6 - 3) && coordYCody != barrera1Y
+					&& coordYCody != barrera2Y) {
+				posible = true;
+			} else
+				coordYCody -= 6;
+			posible = false;
+		} else {
+			coordYRoby += 6;
+			if ((coordXRoby >= 3 && coordYRoby >= 3) && coordYRoby <= (TAM_TABLERO * 6 - 3) && coordYRoby != barrera1Y
+					&& coordYRoby != barrera2Y) {
+				posible = true;
+			} else
+				posible = false;
+			coordYRoby -= 6;
+		}
+		return posible;
+
 	}
 
 	public static boolean moverDerecha(String robotJuega) {
-		return true;
+		boolean posible = false;
+		if (robotJuega.equals("Cody")) {
+			coordXCody += 6;
+			if ((coordXCody >= 3 && coordYCody >= 3) && coordXCody <= (TAM_TABLERO * 6 - 3) && coordXCody != barrera1Y
+					&& coordXCody != barrera2Y) {
+				posible = true;
+			} else
+				coordXCody -= 6;
+			posible = false;
+		} else {
+			coordXRoby += 6;
+			if ((coordXRoby >= 3 && coordYRoby >= 3) && coordXRoby <= (TAM_TABLERO * 6 - 3) && coordXRoby != barrera1Y
+					&& coordXRoby != barrera2Y) {
+				posible = true;
+			} else
+				posible = false;
+			coordXRoby -= 6;
+		}
+		return posible;
 	}
 
 	public static boolean moverIzquierda(String robotJuega) {
-		return true;
+		boolean posible = false;
+		if (robotJuega.equals("Cody")) {
+			coordXCody -= 6;
+			if ((coordXCody >= 3 && coordYCody >= 3) && coordXCody <= (TAM_TABLERO * 6 - 3) && coordXCody != barrera1Y
+					&& coordXCody != barrera2Y) {
+				posible = true;
+			} else
+				coordXCody += 6;
+			posible = false;
+		} else {
+			coordXRoby -= 6;
+			if ((coordXRoby >= 3 && coordYRoby >= 3) && coordXRoby <= (TAM_TABLERO * 6 - 3) && coordXRoby != barrera1Y
+					&& coordXRoby != barrera2Y) {
+				posible = true;
+			} else
+				posible = false;
+			coordXRoby += 6;
+		}
+		return posible;
 	}
 	// </MOVIMIENTOS>
 
