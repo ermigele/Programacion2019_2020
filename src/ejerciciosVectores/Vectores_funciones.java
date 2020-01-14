@@ -10,6 +10,14 @@ public class Vectores_funciones {
 
 		muestraValoresVector(vector);
 
+		System.out.println(devuelvePosicion(vector, 5));
+
+		multiplicaPropioVector(vector, 4);
+
+		for (int v : vector) {
+			System.out.println(v);
+		}
+
 	}
 
 	// Recibe como parámetro un vector y muestra por pantalla la posición y el
@@ -40,29 +48,48 @@ public class Vectores_funciones {
 		return posicion;
 	}
 
-	// multiplicaPropioVector: que recibe como parámetro un vector y un número y
-	// cambia todos los valores del vector multiplicándolos por el número dado.
+	// Recibe como parámetro un vector y un número y cambia todos los valores del
+	// vector multiplicándolos por el número dado.
 	//
 	public static void multiplicaPropioVector(int[] vector, int num) {
 
+		for (int i = 0; i < vector.length; i++) {
+			vector[i] = vector[i] * num;
+		}
+
 	}
 
-	// multiplicaVectorEnOtro: que recibe como parámetro un vector y un número y
-	// devuelve un vector del mismo tamaño que el del parámetro con todos los
-	// valores multiplicados por el número dado.
+	// Recibe como parámetro un vector y un número y devuelve un vector del mismo
+	// tamaño que el del parámetro con todos los valores multiplicados por el número
+	// dado.
 	//
 	public static int[] multiplicaVectorEnOtro(int[] vector, int num) {
 
-		return vector;
+		int[] array = new int[num];
+
+		for (int i = 0; i < vector.length; i++) {
+			array[i] = vector[i] * num;
+		}
+
+		return array;
 	}
 
-	// sumaVectores: que recibe como parámetro dos vectores (se suponen del mismo
-	// tamaño) y devuelve un vector que en cada posición contiene la suma de los
-	// valores de los vectores pasados como parámetros para la misma posición.
+	// Recibe como parámetro dos vectores (se suponen del mismo tamaño) y devuelve
+	// un vector que en cada posición contiene la suma de los valores de los
+	// vectores pasados como parámetros para la misma posición.
 	//
 	public static int[] sumaVectores(int[] vector1, int[] vector2) {
 
-		return vector1;
+		int[] array = new int[vector1.length];
+
+		for (int i = 0; i < vector1.length; i++) {
+			for (int j = 0; j < vector2.length; j++) {
+
+				array[i] = vector1[i] + vector2[j];
+			}
+		}
+
+		return array;
 	}
 
 	// Recibe como parámetro un vector y devuelve otro vector que
@@ -84,7 +111,6 @@ public class Vectores_funciones {
 
 	// Recibe como parámetro tres enteros: tam, min y max y devuelve un vector de
 	// tamaño tam con valores aleatorios entre min y max.
-	// Usa una función main para ir probando las diferentes funciones.
 	//
 	public static int[] generaVectorAleatorio(int tam, int min, int max) {
 		int[] vector = new int[tam];

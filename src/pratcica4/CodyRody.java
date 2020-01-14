@@ -4,22 +4,25 @@ public class CodyRody {
 
 	final static int TAM_TABLERO = 5;
 
-	final static String robotJuega = new String("Cody");
+	static String robotJuega = new String("Cody");
 
 	static int barrera1X = 0, barrera1Y = 0, barrera2X = 0, barrera2Y = 0;
 
 	static int coordXCody = 0, coordYCody = 0, coordXRoby = 0, coordYRoby = 0;
 
+	static boolean ganador = false;
+
 	public static void main(String[] args) {
 
-		boolean ganador = false;
-		int carasDado = 0;
-		char tiradaDado;
+		boolean jugada = false;
+		int carasDado = 0, nMovimientos = 0, turno = 0;
+		char tecla;
+		String movimiento;
 
 		System.out.println("------------------¡BIENVENIDOS A CODY Y ROBY!------------------ ");
 		System.out.println("¿De cuantas caras es tu dado?");
-
 		carasDado = Entrada.entero();
+		System.out.println();
 
 		coordXCody = coordenadaAleatoria();
 		coordYCody = coordenadaAleatoria();
@@ -30,31 +33,38 @@ public class CodyRody {
 			coordXRoby = coordenadaAleatoria();
 			coordYRoby = coordenadaAleatoria();
 		}
-
 		asignaValoresBarreras();
-		// System.out.println(
-		// " Bar1X = " + barrera1X + ", Bar1Y = " + barrera1Y + " Bar2X = " + barrera2X
-		// + " Bar2Y = " + barrera1Y);
-		// System.out.println(" CodyX = " + coordXCody + ", CodyY = " + coordYCody + "
-		// RobyX = " + coordXRoby + " RobyY = "
-		// + coordYRoby);
-		System.out.println();
 		System.out.println("Empezamos");
+		System.out.println();
 
 		while (!ganador) {
 			mostrarTablero();
+			robotJuega = (turno % 2 == 0) ? "Cody" : "Roby";
 
 			System.out.println("¡Es el turno de " + robotJuega + "!");
-			System.out.println("Pulsa la tecla d para lanzar dado...");
-			tiradaDado = Entrada.caracter();
-			System.out.println("Ha salido " + tirarDado(carasDado));
-		}
 
+			System.out.println("Pulsa la tecla d para lanzar dado...");
+			tecla = Entrada.caracter();
+			nMovimientos = tirarDado(carasDado);
+			System.out.println("Ha salido " + nMovimientos);
+
+			jugada = ejecutarJugada(nMovimientos, robotJuega);
+
+			if (jugada) {
+				System.out.println("Se completó la jugada");
+			} else {
+				System.out.println("No se pudo completar la jugada, " + robotJuega
+						+ " se ha salido del tablero o chocado con una barrera");
+			}
+			turno++;
+		}
+		if (ganador) {
+			System.out.println("Ha ganado " + robotJuega);
+		}
 	}
 
 	public static int coordenadaAleatoria() {
 		int coordenada = 0;
-
 		do {
 			coordenada = (int) Math.round(Math.random() * (TAM_TABLERO * 2));
 		} while (coordenada % 2 == 0);
@@ -90,9 +100,8 @@ public class CodyRody {
 
 		int cuadrado = TAM_TABLERO * 6;
 
-		for (int x = 0; x <= cuadrado; x++) {
-
-			for (int y = 0; y <= cuadrado; y++) {
+		for (int y = 0; y <= cuadrado; y++) {
+			for (int x = 0; x <= cuadrado; x++) {
 
 				if (x % 6 == 0 || y % 6 == 0) {
 					System.out.print(" *");
@@ -134,20 +143,24 @@ public class CodyRody {
 		boolean posible = false;
 		if (robotJuega.equals("Cody")) {
 			coordYCody -= 6;
-			if ((coordXCody >= 3 && coordYCody >= 3) && coordYCody <= (TAM_TABLERO * 6 - 3) && coordYCody != barrera1Y
-					&& coordYCody != barrera2Y) {
+			if ((coordXCody >= 3 && coordYCody >= 3) && coordYCody <= (TAM_TABLERO * 6 - 3)
+					&& (coordYCody != barrera1Y || coordXCody != barrera1X)
+					&& (coordYCody != barrera2Y || coordXCody != barrera2X)) {
 				posible = true;
-			} else
+			} else {
 				coordYCody += 6;
-			posible = false;
+				posible = false;
+			}
 		} else {
 			coordYRoby -= 6;
-			if ((coordXRoby >= 3 && coordYRoby >= 3) && coordYRoby <= (TAM_TABLERO * 6 - 3) && coordYRoby != barrera1Y
-					&& coordYRoby != barrera2Y) {
+			if ((coordXRoby >= 3 && coordYRoby >= 3) && coordYRoby <= (TAM_TABLERO * 6 - 3)
+					&& (coordYRoby != barrera1Y || coordXRoby != barrera1X)
+					&& (coordYRoby != barrera2Y || coordXRoby != barrera2X)) {
 				posible = true;
-			} else
+			} else {
 				posible = false;
-			coordYRoby += 6;
+				coordYRoby += 6;
+			}
 		}
 		return posible;
 	}
@@ -156,20 +169,24 @@ public class CodyRody {
 		boolean posible = false;
 		if (robotJuega.equals("Cody")) {
 			coordYCody += 6;
-			if ((coordXCody >= 3 && coordYCody >= 3) && coordYCody <= (TAM_TABLERO * 6 - 3) && coordYCody != barrera1Y
-					&& coordYCody != barrera2Y) {
+			if ((coordXCody >= 3 && coordYCody >= 3) && coordYCody <= (TAM_TABLERO * 6 - 3)
+					&& (coordYCody != barrera1Y || coordXCody != barrera1X)
+					&& (coordYCody != barrera2Y || coordXCody != barrera2X)) {
 				posible = true;
-			} else
+			} else {
 				coordYCody -= 6;
-			posible = false;
+				posible = false;
+			}
 		} else {
 			coordYRoby += 6;
-			if ((coordXRoby >= 3 && coordYRoby >= 3) && coordYRoby <= (TAM_TABLERO * 6 - 3) && coordYRoby != barrera1Y
-					&& coordYRoby != barrera2Y) {
+			if ((coordXRoby >= 3 && coordYRoby >= 3) && coordYRoby <= (TAM_TABLERO * 6 - 3)
+					&& (coordYRoby != barrera1Y || coordXRoby != barrera1X)
+					&& (coordYRoby != barrera2Y || coordXRoby != barrera2X)) {
 				posible = true;
-			} else
+			} else {
 				posible = false;
-			coordYRoby -= 6;
+				coordYRoby -= 6;
+			}
 		}
 		return posible;
 
@@ -179,20 +196,24 @@ public class CodyRody {
 		boolean posible = false;
 		if (robotJuega.equals("Cody")) {
 			coordXCody += 6;
-			if ((coordXCody >= 3 && coordYCody >= 3) && coordXCody <= (TAM_TABLERO * 6 - 3) && coordXCody != barrera1Y
-					&& coordXCody != barrera2Y) {
+			if ((coordXCody >= 3 && coordYCody >= 3) && coordXCody <= (TAM_TABLERO * 6 - 3)
+					&& (coordYCody != barrera1Y || coordXCody != barrera1X)
+					&& (coordYCody != barrera2Y || coordXCody != barrera2X)) {
 				posible = true;
-			} else
+			} else {
 				coordXCody -= 6;
-			posible = false;
+				posible = false;
+			}
 		} else {
 			coordXRoby += 6;
-			if ((coordXRoby >= 3 && coordYRoby >= 3) && coordXRoby <= (TAM_TABLERO * 6 - 3) && coordXRoby != barrera1Y
-					&& coordXRoby != barrera2Y) {
+			if ((coordXRoby >= 3 && coordYRoby >= 3) && coordXRoby <= (TAM_TABLERO * 6 - 3)
+					&& (coordYRoby != barrera1Y || coordXRoby != barrera1X)
+					&& (coordYRoby != barrera2Y || coordXRoby != barrera2X)) {
 				posible = true;
-			} else
+			} else {
 				posible = false;
-			coordXRoby -= 6;
+				coordXRoby -= 6;
+			}
 		}
 		return posible;
 	}
@@ -201,39 +222,103 @@ public class CodyRody {
 		boolean posible = false;
 		if (robotJuega.equals("Cody")) {
 			coordXCody -= 6;
-			if ((coordXCody >= 3 && coordYCody >= 3) && coordXCody <= (TAM_TABLERO * 6 - 3) && coordXCody != barrera1Y
-					&& coordXCody != barrera2Y) {
+			if ((coordXCody >= 3 && coordYCody >= 3) && coordXCody <= (TAM_TABLERO * 6 - 3)
+					&& (coordYCody != barrera1Y || coordXCody != barrera1X)
+					&& (coordYCody != barrera2Y || coordXCody != barrera2X)) {
 				posible = true;
-			} else
+			} else {
 				coordXCody += 6;
-			posible = false;
+				posible = false;
+			}
 		} else {
 			coordXRoby -= 6;
-			if ((coordXRoby >= 3 && coordYRoby >= 3) && coordXRoby <= (TAM_TABLERO * 6 - 3) && coordXRoby != barrera1Y
-					&& coordXRoby != barrera2Y) {
+			if ((coordXRoby >= 3 && coordYRoby >= 3) && coordXRoby <= (TAM_TABLERO * 6 - 3)
+					&& (coordYRoby != barrera1Y || coordXRoby != barrera1X)
+					&& (coordYRoby != barrera2Y || coordXRoby != barrera2X)) {
 				posible = true;
-			} else
+			} else {
 				posible = false;
-			coordXRoby += 6;
+				coordXRoby += 6;
+			}
 		}
 		return posible;
 	}
 	// </MOVIMIENTOS>
 
-	public static boolean ejecutarJugadaCody(int movimientos) {
-		return true;
+	public static boolean ejecutarJugadaCody(String movimiento) {
+		boolean posibleMovimiento = false;
+
+		switch (movimiento) {
+
+		case "ar":
+			posibleMovimiento = moverArriba(robotJuega);
+			break;
+		case "ab":
+			posibleMovimiento = moverAbajo(robotJuega);
+			break;
+		case "de":
+			posibleMovimiento = moverDerecha(robotJuega);
+			break;
+		case "iz":
+			posibleMovimiento = moverIzquierda(robotJuega);
+			break;
+		}
+		ganador = (coordXCody == coordXRoby && coordYCody == coordYRoby);
+		if (ganador)
+			return true;
+		else
+			return posibleMovimiento;
 	}
 
-	public static int ejecutarJugadaRoby(int movimientos) { // RECURSIVA
+	public static boolean ejecutarJugadaRoby(int nMovimiento) {
+		boolean posibleMovimiento = false;
+		int posicion = (int) Math.floor(Math.random() * (4 - 1 + 1) + (1));
+		System.out.println("Roby tiene: " + nMovimiento);
 
-		// caso Base
+		if (nMovimiento == 0) { // CASO BASE
+			return true;
+		}
 
-		// caso Recursivo
-		return 1;
+		switch (posicion) { // CASO RECURSIVO
+
+		case 1:
+			posibleMovimiento = moverArriba(robotJuega);
+			System.out.println("ar");
+			break;
+		case 2:
+			posibleMovimiento = moverAbajo(robotJuega);
+			System.out.println("ab");
+			break;
+		case 3:
+			posibleMovimiento = moverDerecha(robotJuega);
+			System.out.println("de");
+			break;
+		case 4:
+			posibleMovimiento = moverIzquierda(robotJuega);
+			System.out.println("iz");
+			break;
+		}
+		ganador = (coordXCody == coordXRoby && coordYCody == coordYRoby);
+		if (ganador)
+			return true;
+		else
+			return posibleMovimiento ? ejecutarJugadaRoby(nMovimiento - 1) : false;
 	}
 
-	public static boolean ejecutarJugada(int movimientos, String robotJuega) {
-		return true;
-	}
+	public static boolean ejecutarJugada(int nMovimiento, String robotJuega) {
+		String movimiento;
+		boolean posibleJugada = true;
 
+		if (robotJuega.equals("Cody")) {
+			while (nMovimiento > 0 && posibleJugada && !ganador) {
+				System.out.println("Indique el movimiento: ");
+				movimiento = Entrada.cadena().toLowerCase();
+				posibleJugada = ejecutarJugadaCody(movimiento);
+				nMovimiento--;
+			}
+		} else {
+			posibleJugada = ejecutarJugadaRoby(nMovimiento);
+		}
+		return posibleJugada;
+	}
 }
