@@ -8,13 +8,29 @@ public class Vectores_funciones {
 		// int vector[] = new int[8];
 		int[] vector = { 1, 5, 5, 8 };
 
-		muestraValoresVector(vector);
+		// muestraValoresVector(vector);
+		//
+		// System.out.println(devuelvePosicion(vector, 5));
+		//
+		// multiplicaPropioVector(vector, 4);
+		//
+		// for (int v : vector) {
+		// System.out.println(v);
+		// }
+		//
+		// System.out.println("sumaVectores");
+		// for (int v : sumaVectores(vector, vector2)) {
+		// System.out.println(v);
+		// }
 
-		System.out.println(devuelvePosicion(vector, 5));
+		multiplicaVectorEnOtro(vector, 5);
 
-		multiplicaPropioVector(vector, 4);
-
-		for (int v : vector) {
+		System.out.println("devuelvePosiciones");
+		for (int v : devuelvePosiciones(vector, 5)) {
+			System.out.println(v);
+		}
+		System.out.println("generaVectorAleatorio");
+		for (int v : generaVectorAleatorio(4, 0, 9)) {
 			System.out.println(v);
 		}
 
@@ -40,10 +56,11 @@ public class Vectores_funciones {
 
 		int posicion = -1;
 
-		for (int i = 0; i < vector.length; i++) {
+		for (int i = vector.length - 1; i >= 0; i--) {
 
 			if (vector[i] == num)
 				posicion = i;
+
 		}
 		return posicion;
 	}
@@ -65,7 +82,7 @@ public class Vectores_funciones {
 	//
 	public static int[] multiplicaVectorEnOtro(int[] vector, int num) {
 
-		int[] array = new int[num];
+		int[] array = vector.clone();
 
 		for (int i = 0; i < vector.length; i++) {
 			array[i] = vector[i] * num;
@@ -83,10 +100,7 @@ public class Vectores_funciones {
 		int[] array = new int[vector1.length];
 
 		for (int i = 0; i < vector1.length; i++) {
-			for (int j = 0; j < vector2.length; j++) {
-
-				array[i] = vector1[i] + vector2[j];
-			}
+			array[i] = vector1[i] + vector2[i];
 		}
 
 		return array;
@@ -97,8 +111,24 @@ public class Vectores_funciones {
 	// el tamaño correcto para que no rellene con 0 el resto de posiciones?
 	//
 	public static int[] valoresPares(int[] vector) {
+		int pares = 0;
 
-		return vector;
+		for (int i = 0; i < vector.length; i++) {
+			if (vector[i] % 2 == 0) {
+				pares++;
+			}
+		}
+
+		int[] vector3 = new int[pares];
+		int j = 0;
+
+		for (int i = 0; i < vector.length; i++) {
+			if (vector[i] % 2 == 0) {
+				vector3[j] = vector[i];
+				j++;
+			}
+		}
+		return vector3;
 	}
 
 	// Recibe como parámetro un vector y un número y devuelve en otro vector todas
@@ -106,7 +136,17 @@ public class Vectores_funciones {
 	//
 	public static int[] devuelvePosiciones(int[] vector, int num) {
 
-		return vector;
+		int[] array = null;
+		int cont = 0;
+
+		for (int i = 0; i < vector.length; i++) {
+
+			if (vector[i] == num) {
+				cont++;
+			}
+		}
+		array = new int[cont];
+		return array;
 	}
 
 	// Recibe como parámetro tres enteros: tam, min y max y devuelve un vector de
@@ -115,6 +155,9 @@ public class Vectores_funciones {
 	public static int[] generaVectorAleatorio(int tam, int min, int max) {
 		int[] vector = new int[tam];
 
+		for (int i = 0; i < vector.length; i++) {
+			vector[i] = (int) Math.floor(Math.random() * (max - min + 1) + (min));
+		}
 		return vector;
 	}
 }
