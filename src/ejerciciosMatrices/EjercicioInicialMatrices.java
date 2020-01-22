@@ -180,6 +180,8 @@ public class EjercicioInicialMatrices {
 		if (m1.length != m2.length)
 			return null;
 
+		
+		
 	}
 
 	// 9. Crea una función multiplicaMatrices que se le pase como parámetro dos
