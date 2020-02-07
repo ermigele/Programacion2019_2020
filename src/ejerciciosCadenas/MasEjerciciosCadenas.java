@@ -5,8 +5,24 @@ public class MasEjerciciosCadenas {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		String cadena = new String(" ");
+		char carac;
 
-		System.out.println(cadenaPalindroma(Entrada.cadena()));
+		// System.out.print("Introduce una cadena: ");
+		// cadena = Entrada.cadena();
+		// System.out.print("Introduce el caracter que quieras buscar: ");
+		// carac = Entrada.caracter();
+		// buscaCaracter(carac, cadena);
+		//
+		// System.out.print("Introduce un palindromo: ");
+		// if (cadenaPalindroma(Entrada.cadena()))
+		// System.out.println("Es un palindromo");
+		// else
+		// System.out.println("No es un palindromo");
+
+		cadena = "HOLA";
+		rotacionCaracter(cadena);
+
 	}
 
 	/*
@@ -14,6 +30,26 @@ public class MasEjerciciosCadenas {
 	 * carácter y devuelva un vector que contenga todas las posiciones de la cadena
 	 * donde está dicho carácter.
 	 */
+	public static int[] buscaCaracter(int carac, String cadena) {
+		int cont = 0;
+
+		for (int i = 0; i < cadena.length(); i++) {
+			if (carac == cadena.charAt(i)) {
+				cont++;
+			}
+		}
+
+		int[] posiciones = new int[cont];
+		cont = 0;
+
+		for (int i = 0; i < cadena.length(); i++) {
+			if (carac == cadena.charAt(i)) {
+				posiciones[cont] = i;
+				cont++;
+			}
+		}
+		return posiciones;
+	}
 
 	/*
 	 * 2. Escribe un programa que dé como resultado la frecuencia con la que aparece
@@ -30,6 +66,20 @@ public class MasEjerciciosCadenas {
 	 * 
 	 * Por ejemplo: HOLA AHOL LAHO OLAH HOLA
 	 */
+	public static void rotacionCaracter(String cadena) {
+		String nuevaCadena = cadena;
+		char[] caracter = cadena.toCharArray();
+		System.out.println(cadena);
+
+		for (int i = 0; i < cadena.length() - 1; i++) {
+
+			for (int j = 0; j < cadena.length(); j--) {
+
+			}
+			nuevaCadena += String.valueOf(caracter[nuevaCadena.length() - 1]);
+			nuevaCadena += caracter[i];
+		}
+	}
 
 	/*
 	 * 4. Escribe una función cadenaPalindroma que se le pase como parámetro una
@@ -39,7 +89,7 @@ public class MasEjerciciosCadenas {
 	 * 
 	 * Por ejemplo: Dábale arroz a la zorra el abad
 	 * 
-	 * dábalearrozalazorraelabad
+	 *
 	 */
 
 	public static boolean cadenaPalindroma(String cadena) {
@@ -47,11 +97,11 @@ public class MasEjerciciosCadenas {
 		String nuevaCadena = new String(" ");
 		int desc = 0;
 
-		nuevaCadena = cadena.toLowerCase().trim().replace(" ", "").replace("á", "a").replace("é", "e").replace("í", "i")
-				.replace("ó", "o").replace("ú", "u");
+		nuevaCadena = cadena.toLowerCase().trim().replaceAll(" ", "").replace("á", "a").replace("é", "e")
+				.replace("í", "i").replace("ó", "o").replace("ú", "u");
 
 		desc = nuevaCadena.length() - 1;
-		
+
 		for (int i = 0; i < nuevaCadena.length(); i++) {
 
 			if (nuevaCadena.charAt(i) != nuevaCadena.charAt(desc))

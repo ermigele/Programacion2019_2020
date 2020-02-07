@@ -1,4 +1,4 @@
-package pratcica4;
+package practica4;
 
 public class CodyRody {
 
