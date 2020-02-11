@@ -19,10 +19,8 @@ public class MasEjerciciosCadenas {
 		// System.out.println("Es un palindromo");
 		// else
 		// System.out.println("No es un palindromo");
-
-		cadena = "HOLA";
-		rotacionCaracter(cadena);
-
+		// cadena = "HOLA";
+		// rotarCadena(cadena);
 	}
 
 	/*
@@ -57,6 +55,33 @@ public class MasEjerciciosCadenas {
 	 * teclado. No se hará diferencia entre mayúsculas y minúsculas. El resultado se
 	 * presentará en forma de tabla de la siguiente manera:
 	 */
+	public static int[][] frecuenciaParejasCaracter(String cadena) {
+
+		int[][] frecuencia = new int[26][26];
+		cadena = cadena.toLowerCase();
+		for (int i = 0; i <= cadena.length() - 2; i++) {
+			if ((cadena.charAt(i)) != ' ' && (cadena.charAt(i + 1)) != ' ') {
+				frecuencia[cadena.charAt(i) - 97][(cadena.charAt(i + 1)) - 97] += 1;
+			}
+		}
+		return frecuencia;
+	}
+
+	public static void imprimeMatriz(int[][] resultados) {
+
+		System.out.print("         ");
+		for (int i = 0; i <= 26; i++) {
+			System.out.print("  " + (char) (i + 97) + "  ");
+		}
+		System.out.println();
+		for (int i = 0; i < resultados.length; i++) {
+			System.out.print("Fila " + ((char) (i + 97)) + ":  ");
+			for (int j = 0; j < resultados[i].length; j++) {
+				System.out.printf(" [" + resultados[i][j] + "] ");
+			}
+			System.out.println();
+		}
+	}
 
 	/*
 	 * 3.Realiza un programa que lea una cadena de n caracteres e imprima el
@@ -66,19 +91,13 @@ public class MasEjerciciosCadenas {
 	 * 
 	 * Por ejemplo: HOLA AHOL LAHO OLAH HOLA
 	 */
-	public static void rotacionCaracter(String cadena) {
-		String nuevaCadena = cadena;
-		char[] caracter = cadena.toCharArray();
-		System.out.println(cadena);
+	public static void rotarCadena(String cad) {
 
-		for (int i = 0; i < cadena.length() - 1; i++) {
-
-			for (int j = 0; j < cadena.length(); j--) {
-
-			}
-			nuevaCadena += String.valueOf(caracter[nuevaCadena.length() - 1]);
-			nuevaCadena += caracter[i];
+		for (int i = 0; i <= cad.length(); i++) {
+			System.out.println(cad);
+			cad = (cad.charAt(cad.length() - 1)) + cad.substring(0, cad.length() - 1);
 		}
+
 	}
 
 	/*
@@ -88,28 +107,24 @@ public class MasEjerciciosCadenas {
 	 * derecha que de derecha a izquierda (sin tener en cuenta espacios).
 	 * 
 	 * Por ejemplo: Dábale arroz a la zorra el abad
-	 * 
-	 *
 	 */
 
 	public static boolean cadenaPalindroma(String cadena) {
-		boolean esPalindromo = true;
-		String nuevaCadena = new String(" ");
 		int desc = 0;
 
-		nuevaCadena = cadena.toLowerCase().trim().replaceAll(" ", "").replace("á", "a").replace("é", "e")
-				.replace("í", "i").replace("ó", "o").replace("ú", "u");
+		cadena = cadena.toLowerCase().replaceAll(" ", "").replace("á", "a").replace("é", "e").replace("í", "i")
+				.replace("ó", "o").replace("ú", "u");
 
-		desc = nuevaCadena.length() - 1;
+		desc = cadena.length() - 1;
 
-		for (int i = 0; i < nuevaCadena.length(); i++) {
+		for (int i = 0; i < cadena.length() / 2; i++) {
 
-			if (nuevaCadena.charAt(i) != nuevaCadena.charAt(desc))
-				esPalindromo = false;
+			if (cadena.charAt(i) != cadena.charAt(desc))
+				return false;
 
 			desc--;
 		}
-		return esPalindromo;
+		return true;
 	}
 
 }
