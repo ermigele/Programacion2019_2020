@@ -112,8 +112,8 @@ public class MasEjerciciosCadenas {
 	public static boolean cadenaPalindroma(String cadena) {
 		int desc = 0;
 
-		cadena = cadena.toLowerCase().replaceAll(" ", "").replace("á", "a").replace("é", "e").replace("í", "i")
-				.replace("ó", "o").replace("ú", "u");
+		cadena = cadena.toLowerCase().replace(" ", "").replace("á", "a")
+				.replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
 
 		desc = cadena.length() - 1;
 
