@@ -15,23 +15,28 @@ public class Ahorcado {
 		String[] vectorFraseSecreta = new String[4];
 
 		mostrarMatriz(matrizJuego);
+		ordenarColumnaMatriz(matrizJuego, 0);
+		// creaMatrizConCadenas();
 	}
 
 	// FUNCIONES
 	public static String[][] creaMatrizConCadenas() {
 		String[][] cadena = new String[NUM_FILAS][NUM_COL];
 		String[] array = { "artículos", "sujetos", "verbos", "predicados" };
-		String texto = new String("");
+		String frase;
 		int k = 0;
 
-		for (int i = 0; i <= array.length; i++) {
-			System.out.println("Introduce los" + array[i] + ", escribe \"fin\" para indicar que has terminado: ");
-			for (int j = 0; j <= cadena.length; j++) {
+		for (int j = 0; j <= cadena.length; j++) {
+			for (int i = 0; i <= array.length; i++) {
+				System.out.println("Introduce los " + array[i] + ", escribe \"fin\" para indicar que has terminado: ");
+				frase = new String("");
 				k = 0;
-				while (k <= cadena[j].length && !texto.equals("fin")) {
-					texto = Entrada.cadena();
-					cadena[j][k] = texto;
-					k++;
+				while (k < cadena[j].length && !frase.equalsIgnoreCase("fin")) {
+					frase = Entrada.cadena();
+					if (!frase.equalsIgnoreCase("fin")) {
+						cadena[j][k] = frase;
+						k++;
+					}
 				}
 			}
 		}
@@ -60,9 +65,60 @@ public class Ahorcado {
 		}
 	}
 
-	public static void ordenarColumnaMatriz(String[][] m, int colum) {
+	public static void ordenarColumnaMatriz(String[][] m, int colum) { //ordena por filas
+		int pos;
+		String temp;
+		for (int i = 0; i < m.length; i++) {
+			for (int j = 0; j <= (m[i].length - 2); j++) {
+				pos = j;
+				for (int k = j + 1; k <= (m[i].length - 1); k++)
+					if (m[i][k].compareTo(m[i][pos]) < 0)
+						pos = k;
 
+				if (pos != j) {
+					temp = m[i][pos];
+					m[i][pos] = m[i][j];
+					m[i][j] = temp;
+				}
+			}
+		}
 	}
+
+	// public static void ordenaCadenas(String[] v) {
+	// int posMin;
+	// String aux;
+	//
+	// for (int i = 0; i < v.length - 1; i++) {
+	// posMin = i;
+	// for (int j = i + 1; j < v.length; j++)
+	// if (v[posMin].compareTo(v[j]) > 0)
+	// posMin = j;
+	// if (posMin != i) {
+	// aux = new String(v[i]);
+	// v[i] = v[posMin];
+	// v[posMin] = aux;
+	// }
+	// }
+	// }
+
+//	public static void ordenarColumnaMatriz(String[][] m, int colum) { //ordena por filas
+//		int pos;
+//		String temp;
+//		for (int i = 0; i < m.length; i++) {
+//			for (int j = 0; j <= (m[i].length - 2); j++) {
+//				pos = j;
+//				for (int k = j + 1; k <= (m[i].length - 1); k++)
+//					if (m[i][k].compareTo(m[i][pos]) < 0)
+//						pos = k;
+//
+//				if (pos != j) {
+//					temp = m[i][pos];
+//					m[i][pos] = m[i][j];
+//					m[i][j] = temp;
+//				}
+//			}
+//		}
+//	}
 
 	public static void ordenarMatrizPorColumnas(String[][] m) {
 
@@ -70,6 +126,11 @@ public class Ahorcado {
 
 	public static boolean existeCadenaEnColumna(String[][] m, String cadena, int colum) {
 
+		for (int i = 0; i < m.length; i++) {
+			for (int j = 0; j < m[i].length; j++) {
+
+			}
+		}
 		return true;
 	}
 
