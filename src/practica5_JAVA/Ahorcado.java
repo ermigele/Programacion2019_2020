@@ -16,6 +16,7 @@ public class Ahorcado {
 
 		mostrarMatriz(matrizJuego);
 		ordenarColumnaMatriz(matrizJuego, 0);
+		mostrarMatriz(matrizJuego);
 		// creaMatrizConCadenas();
 	}
 
@@ -65,63 +66,74 @@ public class Ahorcado {
 		}
 	}
 
-	public static void ordenarColumnaMatriz(String[][] m, int colum) { //ordena por filas
-		int pos;
+	public static void ordenarColumnaMatriz(String[][] m, int colum) { // ordena por filas
+		int pos = 0;
 		String temp;
-		for (int i = 0; i < m.length; i++) {
-			for (int j = 0; j <= (m[i].length - 2); j++) {
-				pos = j;
-				for (int k = j + 1; k <= (m[i].length - 1); k++)
-					if (m[i][k].compareTo(m[i][pos]) < 0)
-						pos = k;
 
-				if (pos != j) {
-					temp = m[i][pos];
-					m[i][pos] = m[i][j];
-					m[i][j] = temp;
+		for (int fila = 0; fila < m.length; fila++) {
+			for (int col = 0; col < m[fila].length; col++) {
+				if (col == colum) {
+
+					if (m[fila][col] == null)
+						continue;
+
+					System.out.println(m[pos][col] + " :: " + m[fila][col]);
+
+					if (m[pos][col].compareTo(m[fila][col]) < 0) {
+						pos = fila;
+					}
+
+					if (pos != fila) {
+						temp = m[pos][col];
+						m[pos][col] = m[fila][col];
+						m[fila][col] = temp;
+					}
 				}
 			}
 		}
 	}
 
-	// public static void ordenaCadenas(String[] v) {
-	// int posMin;
-	// String aux;
-	//
-	// for (int i = 0; i < v.length - 1; i++) {
-	// posMin = i;
-	// for (int j = i + 1; j < v.length; j++)
-	// if (v[posMin].compareTo(v[j]) > 0)
-	// posMin = j;
-	// if (posMin != i) {
-	// aux = new String(v[i]);
-	// v[i] = v[posMin];
-	// v[posMin] = aux;
+	// public static void ordenarColumnaMatriz(String[][] m, int colum) { // ordena
+	// por filas
+	// int pos;
+	// String temp;
+	// for (int i = 0; i < m.length; i++) {
+	// for (int j = 0; j <= (m[i].length - 2); j++) {
+	//// pos = j;
+	//// for (int k = j + 1; k <= (m[i].length - 1); k++)
+	//// if (m[i][k].compareTo(m[i][pos]) < 0)
+	//// pos = k;
+	////
+	//// if (pos != j) {
+	//// temp = m[i][pos];
+	//// m[i][pos] = m[i][j];
+	//// m[i][j] = temp;
+	//// }
 	// }
 	// }
 	// }
 
-//	public static void ordenarColumnaMatriz(String[][] m, int colum) { //ordena por filas
-//		int pos;
-//		String temp;
-//		for (int i = 0; i < m.length; i++) {
-//			for (int j = 0; j <= (m[i].length - 2); j++) {
-//				pos = j;
-//				for (int k = j + 1; k <= (m[i].length - 1); k++)
-//					if (m[i][k].compareTo(m[i][pos]) < 0)
-//						pos = k;
-//
-//				if (pos != j) {
-//					temp = m[i][pos];
-//					m[i][pos] = m[i][j];
-//					m[i][j] = temp;
-//				}
-//			}
-//		}
-//	}
+	public static void ordenaCadenas(String[] v) {
+		int posMin;
+		String aux;
+
+		for (int i = 0; i < v.length - 1; i++) {
+			posMin = i;
+			for (int j = i + 1; j < v.length; j++)
+				if (v[posMin].compareTo(v[j]) > 0)
+					posMin = j;
+			if (posMin != i) {
+				aux = new String(v[i]);
+				v[i] = v[posMin];
+				v[posMin] = aux;
+			}
+		}
+	}
 
 	public static void ordenarMatrizPorColumnas(String[][] m) {
-
+		for (int i = 0; i < NUM_COL; i++) {
+			ordenarColumnaMatriz(m, i);
+		}
 	}
 
 	public static boolean existeCadenaEnColumna(String[][] m, String cadena, int colum) {
@@ -134,14 +146,48 @@ public class Ahorcado {
 		return true;
 	}
 
-	public static boolean anyadeCadenaAMatriz(String[][] m, String cadena, int tipo) {
+	public static boolean anyadeCadenaAMatriz(String[][] m, String cadena, String tipo) {
 
-		return true;
+		int i = 0, j;
+
+		switch (tipo) {
+		case "articulodet":
+			i = 0;
+			break;
+
+		case "sujeto":
+			i = 1;
+			break;
+
+		case "verbo":
+			i = 2;
+			break;
+
+		case "predicado":
+			i = 4;
+			break;
+		}
+
+		for (j = 0; j < NUM_FILAS; j++)
+			if (cadena.equalsIgnoreCase(m[i][j]))
+				return true;
+
+		return false;
 	}
 
-	public static int[] generaVectorJuego(String[][] m) {
+	public static String[] generaVectorJuego(String[][] m) {
 
-		return null;
+		int fila, col;
+		String[] v = new String[NUM_COL];
+
+		for (int j = 0; j < NUM_COL; j++) {
+			fila = (int) Math.floor(Math.random() * (m.length - 0 + 1) + (0));
+			col = (int) Math.floor(Math.random() * (m.length - 0 + 1) + (0));
+
+			v[j] = m[fila][col];
+		}
+
+		return v;
 	}
 
 	public static boolean contiene(String[] v, char letra) {
