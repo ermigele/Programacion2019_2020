@@ -18,6 +18,15 @@ public class Ahorcado {
 		ordenarColumnaMatriz(matrizJuego, 0);
 		mostrarMatriz(matrizJuego);
 		// creaMatrizConCadenas();
+		// existeCadenaEnColumna(matrizJuego, "niño", 1);
+
+		char[] prueba = { 'a', 'c', 'i', 'l', 'n' };
+		escondePalabra(prueba, "tiende");
+		String[] pruebaT = { "el", "perro", "tiende", "peras" };
+		pistaParteFrase(pruebaT);
+		System.out.println(esParteDeLaFrase(pruebaT, "tiende peras el"));
+
+		System.out.println(esParteDeLaFrase(pruebaT, "el perro tiende peras"));
 	}
 
 	// FUNCIONES
@@ -89,6 +98,7 @@ public class Ahorcado {
 						m[fila][col] = temp;
 					}
 				}
+
 			}
 		}
 	}
@@ -137,13 +147,30 @@ public class Ahorcado {
 	}
 
 	public static boolean existeCadenaEnColumna(String[][] m, String cadena, int colum) {
+		boolean existeCadena = false;
+		int i = 0, inf = 0, sup = 0, centro = 0, filasDisponibles = 0;
 
-		for (int i = 0; i < m.length; i++) {
-			for (int j = 0; j < m[i].length; j++) {
+		for (i = 0; i < NUM_FILAS; i++)
+			if (m[i][colum] != null)
+				filasDisponibles++;
 
+		sup = filasDisponibles - 1;
+
+		while (inf <= sup) {
+
+			centro = (sup + inf) / 2;
+
+			if (m[centro][colum].contains(cadena)) {
+				return true;
+
+			} else if (cadena.compareTo(m[centro][colum]) < 0) {
+				sup = centro - 1;
+
+			} else {
+				inf = centro + 1;
 			}
 		}
-		return true;
+		return existeCadena;
 	}
 
 	public static boolean anyadeCadenaAMatriz(String[][] m, String cadena, String tipo) {
@@ -177,47 +204,84 @@ public class Ahorcado {
 
 	public static String[] generaVectorJuego(String[][] m) {
 
-		int fila, col;
+		int i = 0, filAleatorio = 0;
 		String[] v = new String[NUM_COL];
 
-		for (int j = 0; j < NUM_COL; j++) {
-			fila = (int) Math.floor(Math.random() * (m.length - 0 + 1) + (0));
-			col = (int) Math.floor(Math.random() * (m.length - 0 + 1) + (0));
+		do {
+			filAleatorio = (int) Math.floor(Math.random() * ((NUM_COL - 1) - 0 + 1));
 
-			v[j] = m[fila][col];
-		}
-
+			if (m[filAleatorio][i] != null) {
+				v[i] = m[filAleatorio][i];
+				i++;
+			} else {
+				i--;
+			}
+		} while (i <= v.length);
 		return v;
 	}
 
-	public static boolean contiene(String[] v, char letra) {
+	public static boolean contiene(char[] v, char letra) {
 
-		return true;
+		for (int i = 0; i < v.length; i++) {
+			if (v[i] == letra)
+				return true;
+		}
+		return false;
 	}
+
+	/*
+	 * recibe como parámetro un vector de caracteres y una letra, comprueba si la
+	 * letra no está en dicho vector y si hay hueco para meterla y si se cumplen
+	 * ambas premisas inserta la letra de manera ordenada en el vector devolviendo
+	 * TRUE. En caso contrario devuelve FALSE. Usa el algoritmo de ordenación que
+	 * estimes oportuno.
+	 */
 
 	public static boolean insertaLetraOrdenadaEnVector(String[] v, char letra) {
 
 		return true;
 	}
 
-	public static String escondePalabra(String[] v, String cadena) {
+	public static String escondePalabra(char[] v, String cadena) {
+		String palabra = new String("");
+		for (int j = 0; j < cadena.length(); j++) {
 
-		return cadena;
+			if (contiene(v, cadena.charAt(j))) {
+				palabra += cadena.charAt(j);
+			} else {
+				palabra += "_ ";
+			}
+		}
+		return palabra;
 	}
 
 	public static String pistaParteFrase(String[] v) {
+		int posicionAleatoria, subCadenaAleatoria1, subCadenaAleatoria2;
 
-		return v.toString();
+		posicionAleatoria = (int) Math.floor(Math.random() * ((v.length - 1) - 0 + 1));
+		subCadenaAleatoria1 = (int) Math.floor(Math.random() * ((v[posicionAleatoria].length() - 1) - 0 + 1));
+		subCadenaAleatoria2 = (int) Math.floor(
+				Math.random() * ((v[posicionAleatoria].length() - 1) - subCadenaAleatoria1 + 1) + subCadenaAleatoria1);
+
+		return v[posicionAleatoria].substring(subCadenaAleatoria1, subCadenaAleatoria2);
 	}
 
 	public static boolean esParteDeLaFrase(String[] v, String subcadena) {
+		String cadena = new String("");
 
-		return true;
+		for (int i = 0; i < v.length; i++) {
+			cadena += v[i];
+		}
+
+		if (cadena.contains(subcadena.replace(" ", "")))
+			return true;
+
+		return false;
 	}
 
 	public static boolean resolver(String[] v, String respuesta) {
 
-		return true;
+		return esParteDeLaFrase(v, respuesta);
 	}
 
 }
