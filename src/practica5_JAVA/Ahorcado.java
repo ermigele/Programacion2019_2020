@@ -11,94 +11,141 @@ public class Ahorcado {
 				{ "tu", "algodon", "engaña", "a los pajaros" }, { "un", null, "come", "hierba" },
 				{ "mi", null, null, "artistas" }, { null, null, null, null }, { null, null, null, null },
 				{ null, null, null, null }, { null, null, null, null }, { null, null, null, null } };
-		
-		int opc = 0;
-		String tipo = new String(""), texto = new String("");
-		char letra;
-		char[] vecCarac = new char[NUM_COL];
-		// String[][] matriz = new String[NUM_FILAS][NUM_COL];
 
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		boolean acierto = false, existeCadena = false;
+		int menu = 0, menuJugar = 0, intento = 0;
+		String tipo = new String(""), cadena = new String("");
+		char letra;
+		char[] vecCarac = { '|', '|', '|', '|', '|' };
+		// String[][] matriz = new String[NUM_FILAS][NUM_COL],
+		String[] vectorFraseSecreta = new String[NUM_COL];
+
 		do {
 
-			System.out.println("\n ¿Qué quieres hacer? \n " + "1.Crear matriz de juego \n "
+			System.out.println("\n¿Qué quieres hacer? \n " + "1.Crear matriz de juego \n "
 					+ "2.Mostrar matriz de juego ordenada \n "
-					+ "3.Añadir matriz de juego \n 4.Buscar cadena de matriz de juego \n 5.Juegar \n 6.Salir");
-			opc = Entrada.entero();
+					+ "3.Añadir matriz de juego \n 4.Buscar cadena de matriz de juego \n 5.Jugar \n 6.Salir");
+			menu = Entrada.entero();
 
-			switch (opc) {
+			switch (menu) {
 
 			case 1:
 				matriz = creaMatrizConCadenas();
+				ordenarMatrizPorColumnas(matriz);
 				break;
+
 			case 2:
 				System.out.println("Mostrando matriz de juego... \n");
 				mostrarMatriz(matriz);
 				break;
+
 			case 3:
 				System.out.println(
-						"\n Añadir matriz de juego...\n ¿Qué quiere añadir articulo/det/sujeto/verbo/predicado?");
-				tipo = Entrada.cadena();
+						"\nAñadir matriz de juego...\n ¿Qué quiere añadir articulo/det/sujeto/verbo/predicado?");
+				tipo = Entrada.cadena().toLowerCase();
 				System.out.println("Escriba la cadena añadir");
-				texto = Entrada.cadena();
-				if (anyadeCadenaAMatriz(matriz, texto, tipo)) {
-					System.out.println("Cadena añadida éxito");
+				cadena = Entrada.cadena().toLowerCase();
+				if (anyadeCadenaAMatriz(matriz, cadena, tipo)) {
+					System.out.println("Cadena añadida con éxito");
 				}
 				break;
-			case 4:
-				System.out.println("Buscar cadena de matriz de juego... \n\n ¿Qué cadena quiere buscar?");
-				// existeCadenaEnColumna(Entrada.cadena());
-				break;
-			case 5:
-				String[] vectorFraseSecreta = new String[NUM_COL];
 
-				System.out.println("Jugar \n\n\n ----A JUGAARRRRR----- \n\n\n");
+			case 4:
+				System.out.println("\nBuscar cadena de matriz de juego... \n\n ¿Qué cadena quiere buscar?");
+				cadena = Entrada.cadena().toLowerCase();
+				for (int i = 0; i < NUM_FILAS; i++) {
+					if (existeCadenaEnColumna(matriz, cadena, i))
+						existeCadena = true;
+					else
+						existeCadena = false;
+				}
+
+				if (existeCadena)
+					System.out.println("Existe " + cadena + " en la matriz de juego");
+				else
+					System.out.println("No existe " + cadena + " en la matriz de juego");
+
+				break;
+
+			case 5:
+				vectorFraseSecreta = generaVectorJuego(matriz);
+
+				System.out.println("\n\n\n ----A JUGAARRRRR----- \n\n\n");
 				System.out.println("¡Puede pedir hasta 5 letras para resolver la frase y puede usar pistas!");
-				System.out.println(escondePalabra(vecCarac, String.valueOf(vecCarac)));
-				// System.out.println(escondePalabra(vecCarac, letra));
+
+				for (int i = 0; i < vectorFraseSecreta.length; i++) {
+					System.out.print(escondePalabra(vecCarac, vectorFraseSecreta[i]) + "\t");
+				}
 
 				do {
-					System.out.println("¿Qué quieres? \n 1.Resolver \n " + "2.Pista obtener parte de la frase \n "
-							+ "3.Pista comprobar si sé una parte de la frase \n 4.Seguir");
-					opc = Entrada.entero();
+					System.out.println("\n\nPide letra: ");
+					letra = Character.toLowerCase(Entrada.caracter());
 
-					switch (opc) {
+					if (insertaLetraOrdenadaEnVector(vecCarac, letra))
+						intento++;
+
+					for (int i = 0; i < vectorFraseSecreta.length; i++) {
+						System.out.print(escondePalabra(vecCarac, vectorFraseSecreta[i]) + "\t");
+					}
+
+					System.out.println("\n\nLas letras que has puesto son:");
+
+					for (int i = 0; i < vecCarac.length; i++) {
+						if (vecCarac[i] != '|')
+							System.out.print("[" + vecCarac[i] + "]");
+					}
+
+					System.out.println("\n\n¿Qué quieres? \n 1.Resolver \n " + "2.Pista obtener parte de la frase \n "
+							+ "3.Pista comprobar si sé una parte de la frase \n 4.Seguir");
+					menuJugar = Entrada.entero();
+
+					switch (menuJugar) {
 
 					case 1:
-						System.out.println("La frase es: ");
-
-						if (resolver(vectorFraseSecreta, Entrada.cadena()) && vecCarac.length < 6)
-							System.out.println("¡Enhorabuena! Has resuelto la frase");
-						else
+						System.out.println("\nLa frase es: ");
+						cadena = Entrada.cadena().toLowerCase();
+						if (resolver(vectorFraseSecreta, cadena)) {
+							System.out.println("\n¡Enhorabuena! Has resuelto la frase");
+							acierto = true;
+						} else {
 							System.out.println(vectorFraseSecreta);
+						}
 
 						break;
 
 					case 2:
 						System.out
-								.println("Forma parte  de la frase la cadena: " + pistaParteFrase(vectorFraseSecreta));
+								.println("\nForma parte de la frase la cadena: " + pistaParteFrase(vectorFraseSecreta));
 						break;
 
 					case 3:
-						System.out.println("Escribe la parte de la frase que crees que sabes:");
-						texto = Entrada.cadena().toLowerCase();
+						System.out.println("\nEscribe la parte de la frase que crees que sabes:");
+						cadena = Entrada.cadena().toLowerCase();
 
-						if (esParteDeLaFrase(vectorFraseSecreta, texto)) {
-							System.out.println("Pues sí, " + texto + " forma parte de la frase");
+						if (esParteDeLaFrase(vectorFraseSecreta, cadena)) {
+							System.out.println("Pues sí, " + cadena + " forma parte de la frase");
 						} else {
-							System.out.println("No, " + texto + " no forma parte de la frase");
+							System.out.println("No, " + cadena + " no forma parte de la frase");
 						}
 						break;
 
 					case 4:
-						System.out.println("Pide letra:");
-						letra = Entrada.caracter();
-						System.out.println(escondePalabra(vecCarac, String.valueOf(letra)));
 						break;
 					default:
-						break;
+						System.out.println("Introducida opción incorrecta de menu");
 					}
-				} while (vecCarac.length <= 5);
+				} while (!acierto && intento <= 5);
+
+				for (int i = 0; i < vecCarac.length; i++) {
+					vecCarac[i] = '|';
+				}
+				intento = 0;
+
+				if (!acierto) {
+					for (int i = 0; i < vectorFraseSecreta.length; i++) {
+						System.out.println("\nLa frase secreta era: " + vectorFraseSecreta[i] + " ");
+					}
+				}
 
 				break;
 
@@ -106,9 +153,10 @@ public class Ahorcado {
 				System.out.println("Hasta luegor!");
 				break;
 			default:
+				System.out.println("Introducida opción incorrecta de menu");
 				break;
 			}
-		} while (opc != 6);
+		} while (menu != 6);
 	}
 
 	// FUNCIONES
@@ -157,31 +205,39 @@ public class Ahorcado {
 		}
 	}
 
-	public static void ordenarColumnaMatriz(String[][] m, int colum) {
-		int pos = 0;
+	public static void ordenarColumnaMatriz(String[][] m, int columna) {
+		int i = 0, pos = 0, tamanyo = 0;
+		String[] arrayColum;
 		String temp;
 
-		for (int fila = 0; fila < m.length; fila++) {
-			for (int col = 0; col < m[fila].length; col++) {
-				if (col == colum) {
+		while (i < NUM_FILAS && m[i][columna] != null) {
+			tamanyo++;
+			i++;
+		}
 
-					if (m[fila][col] == null)
-						continue;
+		arrayColum = new String[tamanyo];
 
-					System.out.println(m[pos][col] + " :: " + m[fila][col]);
+		for (int j = 0; j < tamanyo; j++)
+			arrayColum[j] = m[j][columna];
 
-					if (m[pos][col].compareTo(m[fila][col]) < 0) {
-						pos = fila;
-					}
+		for (int k = 0; k < arrayColum.length; k++) {
+			pos = k;
+			for (int j = 0; j < arrayColum.length; j++) {
 
-					if (pos != fila) {
-						temp = m[pos][col];
-						m[pos][col] = m[fila][col];
-						m[fila][col] = temp;
-					}
+				if (arrayColum[j].compareTo(arrayColum[pos]) > 0) {
+					pos = j;
 				}
 
+				if (pos != k) {
+					temp = arrayColum[pos];
+					arrayColum[pos] = arrayColum[k];
+					arrayColum[k] = temp;
+				}
 			}
+		}
+
+		for (int j = 0; j < arrayColum.length; j++) {
+			m[j][columna] = arrayColum[j];
 		}
 	}
 
@@ -261,7 +317,7 @@ public class Ahorcado {
 			} else {
 				i--;
 			}
-		} while (i <= v.length);
+		} while (i < v.length);
 		return v;
 	}
 
@@ -274,16 +330,25 @@ public class Ahorcado {
 		return false;
 	}
 
-	/*
-	 * recibe como parámetro un vector de caracteres y una letra, comprueba si la
-	 * letra no está en dicho vector y si hay hueco para meterla y si se cumplen
-	 * ambas premisas inserta la letra de manera ordenada en el vector devolviendo
-	 * TRUE. En caso contrario devuelve FALSE. Usa el algoritmo de ordenación que
-	 * estimes oportuno.
-	 */
+	public static boolean insertaLetraOrdenadaEnVector(char[] v, char letra) {
+		char temp;
+		int j;
 
-	public static boolean insertaLetraOrdenadaEnVector(String[] v, char letra) {
+		while (contiene(v, letra)) {
+			return false;
+		}
 
+		v[v.length - 1] = letra;
+
+		for (int i = 0; i < v.length; i++) {
+			temp = v[i];
+			j = i - 1;
+			while ((j >= 0) && (v[j] > temp)) {
+				v[j + 1] = v[j];
+				j--;
+			}
+			v[j + 1] = temp;
+		}
 		return true;
 	}
 
@@ -301,14 +366,15 @@ public class Ahorcado {
 	}
 
 	public static String pistaParteFrase(String[] v) {
-		int posicionAleatoria, subCadenaAleatoria1, subCadenaAleatoria2;
+		int posicionAleatoria, subCadAleatoriaIni, subCadAleatoriaFin;
 
 		posicionAleatoria = (int) Math.floor(Math.random() * ((v.length - 1) - 0 + 1));
-		subCadenaAleatoria1 = (int) Math.floor(Math.random() * ((v[posicionAleatoria].length() - 1) - 0 + 1));
-		subCadenaAleatoria2 = (int) Math.floor(
-				Math.random() * ((v[posicionAleatoria].length() - 1) - subCadenaAleatoria1 + 1) + subCadenaAleatoria1);
+		subCadAleatoriaIni = (int) Math.floor(Math.random() * ((v[posicionAleatoria].length() - 1) - 0 + 1));
+		subCadAleatoriaFin = (int) Math
+				.floor(Math.random() * ((v[posicionAleatoria].length() - 1) - subCadAleatoriaIni + 1)
+						+ subCadAleatoriaIni + 1);
 
-		return v[posicionAleatoria].substring(subCadenaAleatoria1, subCadenaAleatoria2);
+		return v[posicionAleatoria].substring(subCadAleatoriaIni, subCadAleatoriaFin);
 	}
 
 	public static boolean esParteDeLaFrase(String[] v, String subcadena) {
@@ -317,7 +383,7 @@ public class Ahorcado {
 		for (int i = 0; i < v.length; i++) {
 			cadena += v[i];
 		}
-
+		cadena = cadena.replace(" ", "");
 		if (cadena.contains(subcadena.replace(" ", "")))
 			return true;
 
