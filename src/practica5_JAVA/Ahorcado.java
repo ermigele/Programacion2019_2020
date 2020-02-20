@@ -7,17 +7,21 @@ public class Ahorcado {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		String[][] matriz = { { "el", "perro", "tiende", "peras" }, { "su", "niño", "coge", "curvas" },
-				{ "tu", "algodon", "engaña", "a los pajaros" }, { "un", null, "come", "hierba" },
-				{ "mi", null, null, "artistas" }, { null, null, null, null }, { null, null, null, null },
-				{ null, null, null, null }, { null, null, null, null }, { null, null, null, null } };
+		// String[][] matriz = { { "el", "perro", "tiende", "peras" }, { "su", "niño",
+		// "coge", "curvas" },
+		// { "tu", "algodon", "engaña", "a los pajaros" }, { "un", null, "come",
+		// "hierba" },
+		// { "mi", null, null, "artistas" }, { null, null, null, null }, { null, null,
+		// null, null },
+		// { null, null, null, null }, { null, null, null, null }, { null, null, null,
+		// null } };
 
 		boolean acierto = false, existeCadena = false;
 		int menu = 0, menuJugar = 0, intento = 0;
 		String tipo = new String(""), cadena = new String("");
 		char letra;
 		char[] vecCarac = { '|', '|', '|', '|', '|' };
-		// String[][] matriz = new String[NUM_FILAS][NUM_COL],
+		String[][] matriz = new String[NUM_FILAS][NUM_COL];
 		String[] vectorFraseSecreta = new String[NUM_COL];
 
 		do {
@@ -47,6 +51,7 @@ public class Ahorcado {
 				cadena = Entrada.cadena().toLowerCase();
 				if (anyadeCadenaAMatriz(matriz, cadena, tipo)) {
 					System.out.println("Cadena añadida con éxito");
+					ordenarMatrizPorColumnas(matriz);
 				}
 				break;
 
@@ -64,7 +69,6 @@ public class Ahorcado {
 					System.out.println("Existe " + cadena + " en la matriz de juego");
 				else
 					System.out.println("No existe " + cadena + " en la matriz de juego");
-
 				break;
 
 			case 5:
@@ -107,8 +111,6 @@ public class Ahorcado {
 						if (resolver(vectorFraseSecreta, cadena)) {
 							System.out.println("\n¡Enhorabuena! Has resuelto la frase");
 							acierto = true;
-						} else {
-							System.out.println(vectorFraseSecreta);
 						}
 
 						break;
@@ -134,7 +136,7 @@ public class Ahorcado {
 					default:
 						System.out.println("Introducida opción incorrecta de menu");
 					}
-				} while (!acierto && intento <= 5);
+				} while (!acierto && intento < 5);
 
 				for (int i = 0; i < vecCarac.length; i++) {
 					vecCarac[i] = '|';
@@ -142,8 +144,9 @@ public class Ahorcado {
 				intento = 0;
 
 				if (!acierto) {
+					System.out.print("\nLa frase secreta era: ");
 					for (int i = 0; i < vectorFraseSecreta.length; i++) {
-						System.out.println("\nLa frase secreta era: " + vectorFraseSecreta[i] + " ");
+						System.out.print(vectorFraseSecreta[i] + " ");
 					}
 				}
 
@@ -157,6 +160,7 @@ public class Ahorcado {
 				break;
 			}
 		} while (menu != 6);
+
 	}
 
 	// FUNCIONES
@@ -392,6 +396,15 @@ public class Ahorcado {
 
 	public static boolean resolver(String[] v, String respuesta) {
 
-		return esParteDeLaFrase(v, respuesta);
+		String cadena = new String("");
+
+		for (int i = 0; i < v.length; i++) {
+			cadena += v[i];
+		}
+		cadena = cadena.replace(" ", "");
+		if (cadena.equals(respuesta.replace(" ", "")))
+			return true;
+
+		return false;
 	}
 }
