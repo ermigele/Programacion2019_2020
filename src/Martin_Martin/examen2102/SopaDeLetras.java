@@ -1,4 +1,4 @@
-package examen2102;
+package Martin_Martin.examen2102;
 
 public class SopaDeLetras {
 

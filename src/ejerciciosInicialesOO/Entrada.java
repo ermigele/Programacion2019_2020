@@ -1,4 +1,4 @@
-package Martin_Martin.examen2102;
+package ejerciciosInicialesOO;
 
 import java.io.*;
 
