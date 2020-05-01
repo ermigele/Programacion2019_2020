@@ -1,4 +1,4 @@
-package practica6JAVA;
+package ejercicioHerenciaYPolimorfismo3;
 
 import java.io.*;
 
